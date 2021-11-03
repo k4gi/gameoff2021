@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://beetles/beetle3.png" type="Texture" id=1]
+[ext_resource path="res://beetles/Beetle.gd" type="Script" id=2]
+
+[node name="Beetle3" type="TextureButton"]
+margin_left = 72.0
+margin_right = 104.0
+margin_bottom = 32.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture_normal = ExtResource( 1 )
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
