@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/notesF4.ogg-1de75932e7a2f765573a9a1f19456cbb.oggstr"
+
+[deps]
+
+source_file="res://sounds/notesF4.ogg"
+dest_files=[ "res://.import/notesF4.ogg-1de75932e7a2f765573a9a1f19456cbb.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

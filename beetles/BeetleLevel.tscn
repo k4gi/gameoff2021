@@ -1,6 +1,14 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://beetles/BeetleLevel.gd" type="Script" id=1]
+[ext_resource path="res://sounds/notesC4.ogg" type="AudioStream" id=2]
+[ext_resource path="res://sounds/play.png" type="Texture" id=3]
+[ext_resource path="res://sounds/notesG4.ogg" type="AudioStream" id=4]
+[ext_resource path="res://sounds/notesB4.ogg" type="AudioStream" id=5]
+[ext_resource path="res://sounds/notesA4.ogg" type="AudioStream" id=6]
+[ext_resource path="res://sounds/notesF4.ogg" type="AudioStream" id=7]
+[ext_resource path="res://sounds/notesD4.ogg" type="AudioStream" id=8]
+[ext_resource path="res://sounds/notesE4.ogg" type="AudioStream" id=9]
 
 [node name="BeetleLevel" type="Node"]
 script = ExtResource( 1 )
@@ -17,13 +25,53 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HBox" type="HBoxContainer" parent="Margin"]
+[node name="VBox" type="VBoxContainer" parent="Margin"]
+margin_right = 236.0
+margin_bottom = 108.0
+
+[node name="TextureButton" type="TextureButton" parent="Margin/VBox"]
 margin_left = 102.0
-margin_top = 54.0
-margin_right = 102.0
-margin_bottom = 54.0
+margin_right = 134.0
+margin_bottom = 32.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture_normal = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBox" type="HBoxContainer" parent="Margin/VBox"]
+margin_left = 118.0
+margin_top = 36.0
+margin_right = 118.0
+margin_bottom = 36.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Sounds" type="Node" parent="."]
+
+[node name="C4" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource( 2 )
+
+[node name="D4" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource( 8 )
+
+[node name="E4" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource( 9 )
+
+[node name="F4" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource( 7 )
+
+[node name="G4" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource( 4 )
+
+[node name="A4" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource( 6 )
+
+[node name="B4" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource( 5 )
+
+[connection signal="pressed" from="Margin/VBox/TextureButton" to="." method="_on_TextureButton_pressed"]

@@ -1,7 +1,7 @@
 extends TextureButton
 
 
-signal pressed_me(me)
+#signal pressed_me(me)
 
 
 func ready():
@@ -10,4 +10,4 @@ func ready():
 
 func on_pressed():
 	print("pressed")
-	emit_signal("pressed_me", self)
+#	emit_signal("pressed_me", self)

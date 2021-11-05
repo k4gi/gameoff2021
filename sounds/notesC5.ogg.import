@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/notesC5.ogg-ed6ddcc4219e17f1c7102253ac50382d.oggstr"
+
+[deps]
+
+source_file="res://sounds/notesC5.ogg"
+dest_files=[ "res://.import/notesC5.ogg-ed6ddcc4219e17f1c7102253ac50382d.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0
