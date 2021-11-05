@@ -44,24 +44,27 @@ func on_beetle_pressed(n):
 				BeetleBox.move_child(BeetleBox.get_node(n), old_index)
 			
 			beetle_selected = false
-			BeetleBox.get_node(beetle_name + "/AnimationPlayer").stop()
+			BeetleBox.get_node(beetle_name + "/BeetleAnim").stop()
 			BeetleBox.get_node(beetle_name).set_modulate(Color.white)
 		
 		else:
 			beetle_selected = true
 			beetle_name = n
-			BeetleBox.get_node(beetle_name + "/AnimationPlayer").play("flash")
+			BeetleBox.get_node(beetle_name + "/BeetleAnim").play("flash")
 
 
 func play_music():
 	if !song_playing:
 		song_playing = true
-		beetle_selected = false
-		BeetleBox.get_node(beetle_name + "/AnimationPlayer").stop()
-		BeetleBox.get_node(beetle_name).set_modulate(Color.white)
+		
+		if beetle_selected:
+			beetle_selected = false
+			BeetleBox.get_node(beetle_name + "/BeetleAnim").stop()
+			BeetleBox.get_node(beetle_name).set_modulate(Color.white)
 		
 		for i in BeetleBox.get_child_count():
 			var name = BeetleBox.get_child(i).get_name()
+			BeetleBox.get_child(i).get_node("BeetleAnim").play("flash once")
 			get_node("Sounds/" + beetle_to_sound[name]).play()
 			yield(get_tree().create_timer(1, false), "timeout")
 		song_playing = false
