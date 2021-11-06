@@ -3,7 +3,7 @@ extends Node
 onready var BeetleBox = $Margin/VBox/HBox
 
 var beetle_selected = false
-var beetle_name
+var beetle_index
 var song_playing = false
 
 var beetle_to_sound = {
@@ -18,39 +18,45 @@ var beetle_to_sound = {
 
 
 func _ready():
-	new_beetle("Beetle1")
-	new_beetle("Beetle2")
-	new_beetle("Beetle3")
-	new_beetle("Beetle4")
-	new_beetle("Beetle5")
-	new_beetle("Beetle6")
-	new_beetle("Beetle7")
+	make_beetle("Beetle1")
+	make_beetle("Beetle1")
+	make_beetle("Beetle1")
+	make_beetle("Beetle4")
+	make_beetle("Beetle5")
+	make_beetle("Beetle6")
+	make_beetle("Beetle7")
 
 
 func new_beetle(name: String):
 	var new_beetle = load("res://beetles/" + name + ".tscn").instance()
-	new_beetle.connect("pressed_me", self, "on_beetle_pressed_me")
 	new_beetle.connect("pressed", self, "on_beetle_pressed", [name])
+	BeetleBox.add_child(new_beetle, true)
+
+
+func make_beetle(type: String):
+	var new_beetle = load("res://beetles/BeetleGeneric.tscn").instance()
+	new_beetle.beetle_type = type
+	new_beetle.set_normal_texture( load("res://beetles/" + type + ".png") )
+	new_beetle.connect("pressed", self, "on_beetle_pressed", [new_beetle])
 	BeetleBox.add_child(new_beetle, true)
 
 
 func on_beetle_pressed(n):
 	if !song_playing:
 		if beetle_selected:
-			if n != beetle_name:
-				var old_index = BeetleBox.get_node(beetle_name).get_index()
-				var new_index = BeetleBox.get_node(n).get_index()
-				BeetleBox.move_child(BeetleBox.get_node(beetle_name), new_index)
-				BeetleBox.move_child(BeetleBox.get_node(n), old_index)
+			if n.get_index() != beetle_index:
+				var old_index = beetle_index
+				var new_index = n.get_index()
+				BeetleBox.move_child(BeetleBox.get_child(beetle_index), new_index)
+				BeetleBox.move_child(n, old_index)
+				beetle_index = new_index
 			
-			beetle_selected = false
-			BeetleBox.get_node(beetle_name + "/BeetleAnim").stop()
-			BeetleBox.get_node(beetle_name).set_modulate(Color.white)
+			cancel_selection()
 		
 		else:
 			beetle_selected = true
-			beetle_name = n
-			BeetleBox.get_node(beetle_name + "/BeetleAnim").play("flash")
+			beetle_index = n.get_index()
+			n.get_node("BeetleAnim").play("flash")
 
 
 func play_music():
@@ -58,23 +64,22 @@ func play_music():
 		song_playing = true
 		
 		if beetle_selected:
-			beetle_selected = false
-			BeetleBox.get_node(beetle_name + "/BeetleAnim").stop()
-			BeetleBox.get_node(beetle_name).set_modulate(Color.white)
+			cancel_selection()
 		
 		for i in BeetleBox.get_child_count():
-			var name = BeetleBox.get_child(i).get_name()
+			var type = BeetleBox.get_child(i).beetle_type
 			BeetleBox.get_child(i).get_node("BeetleAnim").play("flash once")
-			get_node("Sounds/" + beetle_to_sound[name]).play()
+			get_node("Sounds/" + beetle_to_sound[type]).play()
 			yield(get_tree().create_timer(1, false), "timeout")
 		song_playing = false
+
+
+func cancel_selection():
+	beetle_selected = false
+	BeetleBox.get_child(beetle_index).get_node("BeetleAnim").stop()
+	BeetleBox.get_child(beetle_index).set_modulate(Color.white)
 
 
 func _on_TextureButton_pressed():
 	play_music()
 
-
-func make_beetle(type):
-	var new_beetle = load("res://beetles/BeetleGeneric.tscn").instance()
-	new_beetle.beetle_type = type
-	new_beetle.set_normal_texture( load("res://beetles/" + type + ".png") )
