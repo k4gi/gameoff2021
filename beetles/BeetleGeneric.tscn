@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://beetles/BeetleAnim.tscn" type="PackedScene" id=1]
+[ext_resource path="res://beetles/Beetle1.png" type="Texture" id=2]
+[ext_resource path="res://beetles/BeetleGeneric.gd" type="Script" id=3]
+
+[node name="BeetleGeneric" type="TextureButton"]
+margin_right = 32.0
+margin_bottom = 32.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture_normal = ExtResource( 2 )
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BeetleAnim" parent="." instance=ExtResource( 1 )]

@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/beetle3.png-a4ee4547f8fbfa1aa2bfc81375e5dbdb.stex"
+path="res://.import/Beetle3.png-6f651f1fff197dc3f49a89a196ae8fea.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://beetles/beetle3.png"
-dest_files=[ "res://.import/beetle3.png-a4ee4547f8fbfa1aa2bfc81375e5dbdb.stex" ]
+source_file="res://beetles/Beetle3.png"
+dest_files=[ "res://.import/Beetle3.png-6f651f1fff197dc3f49a89a196ae8fea.stex" ]
 
 [params]
 

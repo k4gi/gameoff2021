@@ -72,3 +72,9 @@ func play_music():
 
 func _on_TextureButton_pressed():
 	play_music()
+
+
+func make_beetle(type):
+	var new_beetle = load("res://beetles/BeetleGeneric.tscn").instance()
+	new_beetle.beetle_type = type
+	new_beetle.set_normal_texture( load("res://beetles/" + type + ".png") )
