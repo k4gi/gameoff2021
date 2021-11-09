@@ -1,6 +1,7 @@
 extends Node
 
 onready var BeetleBox = $Margin/VBox/HBox
+onready var ControlBox = $Margin/VBox/HBoxControls
 
 var beetle_selected = false
 var beetle_index
@@ -25,12 +26,14 @@ func _ready():
 	make_beetle("Beetle5")
 	make_beetle("Beetle6")
 	make_beetle("Beetle7")
-
-
-func new_beetle(name: String):
-	var new_beetle = load("res://beetles/" + name + ".tscn").instance()
-	new_beetle.connect("pressed", self, "on_beetle_pressed", [name])
-	BeetleBox.add_child(new_beetle, true)
+	
+	make_beetle_control("Beetle1")
+	make_beetle_control("Beetle2")
+	make_beetle_control("Beetle3")
+	make_beetle_control("Beetle4")
+	make_beetle_control("Beetle5")
+	make_beetle_control("Beetle6")
+	make_beetle_control("Beetle7")
 
 
 func make_beetle(type: String):
@@ -39,6 +42,16 @@ func make_beetle(type: String):
 	new_beetle.set_normal_texture( load("res://beetles/" + type + ".png") )
 	new_beetle.connect("pressed", self, "on_beetle_pressed", [new_beetle])
 	BeetleBox.add_child(new_beetle, true)
+
+
+func make_beetle_control(type: String):
+	var new_beetle = load("res://beetles/BeetleGeneric.tscn").instance()
+	new_beetle.beetle_type = type
+	new_beetle.set_normal_texture( load("res://beetles/" + type + ".png") )
+	new_beetle.connect("pressed", self, "on_beetle_control_pressed", [new_beetle])
+	ControlBox.add_child(new_beetle, true)
+	yield(get_tree(), "idle_frame")
+	new_beetle.set_scale(Vector2(0.5, 0.5))
 
 
 func on_beetle_pressed(n):
@@ -57,6 +70,11 @@ func on_beetle_pressed(n):
 			beetle_selected = true
 			beetle_index = n.get_index()
 			n.get_node("BeetleAnim").play("flash")
+
+
+func on_beetle_control_pressed(n):
+	#uhh idk
+	pass
 
 
 func play_music():
