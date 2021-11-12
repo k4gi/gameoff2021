@@ -20,20 +20,12 @@ var beetle_to_sound = {
 
 func _ready():
 	make_beetle("Beetle1")
-	make_beetle("Beetle1")
-	make_beetle("Beetle1")
+	make_beetle("Beetle2")
+	make_beetle("Beetle3")
 	make_beetle("Beetle4")
 	make_beetle("Beetle5")
 	make_beetle("Beetle6")
 	make_beetle("Beetle7")
-	
-	make_beetle_control("Beetle1")
-	make_beetle_control("Beetle2")
-	make_beetle_control("Beetle3")
-	make_beetle_control("Beetle4")
-	make_beetle_control("Beetle5")
-	make_beetle_control("Beetle6")
-	make_beetle_control("Beetle7")
 
 
 func make_beetle(type: String):
