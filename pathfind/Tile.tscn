@@ -3,5 +3,6 @@
 [ext_resource path="res://pathfind/tile.png" type="Texture" id=1]
 
 [node name="Tile" type="Sprite"]
+modulate = Color( 0.54902, 0.54902, 1, 1 )
 texture = ExtResource( 1 )
 centered = false

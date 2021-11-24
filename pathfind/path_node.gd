@@ -5,6 +5,7 @@ var content
 
 var g_cost = -1
 var h_cost = -1
+var parent = null
 
 
 func _init(input, x, y):

@@ -7,7 +7,8 @@ enum {
 	OPEN,
 	CLOSED,
 	BEGINNING,
-	DESTINATION
+	DESTINATION,
+	PATH
 }
 
 var grid = []
@@ -48,16 +49,57 @@ func solve_path(beginning: Vector2, destination: Vector2):
 	var destination_x = destination.x / resolution
 	var destination_y = destination.y / resolution
 	
-	grid[beginning_y][beginning_x].content = BEGINNING
-	grid[destination_y][destination_x].content = DESTINATION
+	var beginning_node = grid[beginning_y][beginning_x]
+	beginning_node.content = BEGINNING
+	var destination_node = grid[destination_y][destination_x]
+	destination_node.content = DESTINATION
 	
 	var open_set = []
 	var closed_set = []
 	
 	open_set.append( grid[beginning_y][beginning_x] )
 	
-	for n in find_neighbours( open_set[0] ):
-		pass #to be continued
+	while open_set.size() > 0:
+		var current_node = open_set[0]
+		
+		var i = 1
+		while i < open_set.size():
+			if open_set[i].get_f_cost() < current_node.get_f_cost() or open_set[i].get_f_cost() == current_node.get_f_cost() and open_set[i].h_cost < current_node.h_cost:
+				current_node = open_set[i]
+			i += 1
+		
+		open_set.erase(current_node)
+		closed_set.append(current_node)
+		current_node.content = CLOSED
+		
+		if current_node == destination_node:
+			trace_path( beginning_node, destination_node )
+			return
+		
+		for n in find_neighbours( current_node ):
+			if closed_set.has(n) or n.content == OBSTACLE:
+				pass
+			else:
+				var new_g_cost = current_node.g_cost + find_cost( current_node, n )
+				if new_g_cost < n.g_cost or !open_set.has( n ):
+					n.g_cost = new_g_cost
+					n.h_cost = find_cost( n, destination_node )
+					n.parent = current_node
+					if !open_set.has( n ):
+						open_set.append( n )
+						n.content = OPEN
+
+
+func trace_path( start: PATH_NODE, finish: PATH_NODE ):
+	start.content = BEGINNING
+	finish.content = DESTINATION
+	var path = []
+	var current = finish
+	while current != start:
+		path.append(current)
+		if current != finish:
+			current.content = PATH
+		current = current.parent
 
 
 func find_cost( node_a: PATH_NODE, node_b: PATH_NODE ):
