@@ -1,5 +1,6 @@
 const PATH_NODE = preload("res://pathfind/path_node.gd")
 const TILE_TEXTURE = preload("res://pathfind/Tile.tscn")
+const TILE_COLLISION = preload("res://pathfind/TileCollision.tscn")
 
 enum {
 	EMPTY,
@@ -13,6 +14,7 @@ enum {
 
 var grid = []
 var tile_textures = []
+var tile_collision = []
 var resolution = 0
 
 
@@ -26,6 +28,7 @@ func _init(top_left: Vector2, bottom_right: Vector2, res: int):
 	
 	build_grid( grid_size.x / resolution, grid_size.y / resolution )
 	build_textures( top_left, grid_size.x / resolution, grid_size.y / resolution )
+	build_collision( top_left, grid_size.x / resolution, grid_size.y / resolution )
 
 
 func build_grid(size_x: int, size_y: int):
@@ -33,6 +36,19 @@ func build_grid(size_x: int, size_y: int):
 		grid.append( [] )
 		for x in range(size_x):
 			grid[y].append( PATH_NODE.new( EMPTY, x, y ) )
+
+
+func build_collision(top_left: Vector2, size_x: int, size_y: int):
+	for y in range(size_y):
+		tile_collision.append( [] )
+		for x in range(size_x):
+			tile_collision[y].append( TILE_COLLISION.instance() )
+			tile_collision[y][x].set_global_position(Vector2( top_left.x + x*resolution, top_left.y + y*resolution ) )
+			tile_collision[y][x].connect("body_entered", self, "on_tile_collide", [x,y])
+
+
+func on_tile_collide(collided_node, co_ords):
+	grid[co_ords[1]][co_ords[0]].content = OBSTACLE
 
 
 func build_textures(top_left: Vector2, size_x: int, size_y: int):
@@ -91,15 +107,14 @@ func solve_path(beginning: Vector2, destination: Vector2):
 
 
 func trace_path( start: PATH_NODE, finish: PATH_NODE ):
-	start.content = BEGINNING
-	finish.content = DESTINATION
 	var path = []
 	var current = finish
 	while current != start:
 		path.append(current)
-		if current != finish:
-			current.content = PATH
+		current.content = PATH
 		current = current.parent
+	start.content = BEGINNING
+	finish.content = DESTINATION
 
 
 func find_cost( node_a: PATH_NODE, node_b: PATH_NODE ):

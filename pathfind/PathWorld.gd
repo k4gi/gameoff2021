@@ -3,33 +3,53 @@ extends Node2D
 
 const PATH_GRID = preload("res://pathfind/path_grid.gd")
 
+onready var Unit = $Unit
+onready var Wall = $Wall
+
 var test_grid
 
 
 func _ready():
 	test_grid = PATH_GRID.new( get_global_position(), Vector2(256, 128), 16 )
-	test_grid.grid[0][6].content = PATH_GRID.OBSTACLE
-	test_grid.grid[1][6].content = PATH_GRID.OBSTACLE
-	test_grid.grid[2][6].content = PATH_GRID.OBSTACLE
-	test_grid.grid[3][6].content = PATH_GRID.OBSTACLE
-	test_grid.grid[4][6].content = PATH_GRID.OBSTACLE
-	test_grid.grid[5][6].content = PATH_GRID.OBSTACLE
-	test_grid.grid[5][5].content = PATH_GRID.OBSTACLE
-	test_grid.grid[5][4].content = PATH_GRID.OBSTACLE
-	test_grid.grid[5][3].content = PATH_GRID.OBSTACLE
-	test_grid.grid[5][2].content = PATH_GRID.OBSTACLE
-	test_grid.grid[7][10].content = PATH_GRID.OBSTACLE
-	test_grid.grid[6][10].content = PATH_GRID.OBSTACLE
-	test_grid.grid[5][10].content = PATH_GRID.OBSTACLE
-	test_grid.solve_path( Vector2(20,20), Vector2(250,120) )
+	add_collision()
+#	test_grid.grid[0][6].content = PATH_GRID.OBSTACLE
+#	test_grid.grid[1][6].content = PATH_GRID.OBSTACLE
+#	test_grid.grid[2][6].content = PATH_GRID.OBSTACLE
+#	test_grid.grid[3][6].content = PATH_GRID.OBSTACLE
+#	test_grid.grid[4][6].content = PATH_GRID.OBSTACLE
+#	test_grid.grid[5][6].content = PATH_GRID.OBSTACLE
+#	test_grid.grid[5][5].content = PATH_GRID.OBSTACLE
+#	test_grid.grid[5][4].content = PATH_GRID.OBSTACLE
+#	test_grid.grid[5][3].content = PATH_GRID.OBSTACLE
+#	test_grid.grid[5][2].content = PATH_GRID.OBSTACLE
+#	test_grid.grid[7][10].content = PATH_GRID.OBSTACLE
+#	test_grid.grid[6][10].content = PATH_GRID.OBSTACLE
+#	test_grid.grid[5][10].content = PATH_GRID.OBSTACLE
+#	test_grid.grid[4][10].content = PATH_GRID.OBSTACLE
+#	test_grid.grid[3][10].content = PATH_GRID.OBSTACLE
+#	test_grid.grid[2][10].content = PATH_GRID.OBSTACLE
+#	test_grid.grid[1][10].content = PATH_GRID.OBSTACLE
 	show_grid()
 	refresh_grid()
+	Unit.get_node("AnimationPlayer").play("zoom")
+	Wall.get_node("AnimationPlayer").play("zoom")
 
+
+func _process(_delta):
+	test_grid.solve_path( Unit.get_global_position(), Vector2(250,120) )
+	refresh_grid()
+	
 
 func show_grid():
 	for y in test_grid.grid.size():
 		for x in test_grid.grid[y].size():
 			add_child(test_grid.tile_textures[y][x])
+
+
+func add_collision():
+	for y in test_grid.grid.size():
+		for x in test_grid.grid[y].size():
+			add_child(test_grid.tile_collision[y][x])
 
 
 func refresh_grid():
