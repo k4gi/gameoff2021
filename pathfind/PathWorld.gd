@@ -2,12 +2,13 @@ extends Node2D
 
 
 const PATH_GRID = preload("res://pathfind/path_grid.gd")
+const WALL = preload("res://pathfind/Wall.tscn")
 
 onready var Unit = $Unit
-onready var Wall = $Wall
+
 
 var test_grid
-
+var test_wall
 
 func _ready():
 	test_grid = PATH_GRID.new( get_global_position(), Vector2(256, 128), 16 )
@@ -31,8 +32,11 @@ func _ready():
 #	test_grid.grid[1][10].content = PATH_GRID.OBSTACLE
 	show_grid()
 	refresh_grid()
+	yield(get_tree(), "idle_frame")
+	test_wall = WALL.instance()
+	add_child(test_wall)
 	Unit.get_node("AnimationPlayer").play("zoom")
-	Wall.get_node("AnimationPlayer").play("zoom")
+	test_wall.get_node("AnimationPlayer").play("zoom")
 
 
 func _process(_delta):

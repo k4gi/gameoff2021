@@ -48,6 +48,7 @@ func build_collision(top_left: Vector2, size_x: int, size_y: int):
 
 
 func on_tile_collide(collided_node, co_ords):
+	print("hello")
 	grid[co_ords[1]][co_ords[0]].content = OBSTACLE
 
 
